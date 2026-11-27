@@ -24,17 +24,29 @@ export default function AuthenticatedLayout({ header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
-                                >
-                                    Dashboard
-                                </NavLink>
+    <NavLink
+        href={route('dashboard')}
+        active={route().current('dashboard')}
+    >
+        Dashboard
+    </NavLink>
 
-                                <NavLink href={route('khach-hang.index')} active={route().current('khach-hang.*')}>
-    Khách hàng
-</NavLink>
-                            </div>
+    <NavLink
+        href={route('khach-hang.index')}
+        active={route().current('khach-hang.*')}
+    >
+        Khách hàng
+    </NavLink>
+
+    {user.role === 'admin' && (
+        <NavLink
+            href={route('loai-chung-tu.index')}
+            active={route().current('loai-chung-tu.*')}
+        >
+            Loại chứng từ
+        </NavLink>
+    )}
+</div>
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">

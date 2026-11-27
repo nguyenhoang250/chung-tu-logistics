@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+       Schema::create('loai_chung_tu', function (Blueprint $table) {
+    $table->id();
+    $table->string('ma', 30)->unique();
+    $table->string('ten');
+    $table->string('nhom', 50)->nullable();
+    $table->text('mo_ta')->nullable();
+    $table->unsignedInteger('thu_tu')->default(0);
+    $table->boolean('dang_su_dung')->default(true);
+    $table->timestamps();
+});
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('loai_chung_tu');
+    }
+};

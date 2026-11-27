@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KhachHangController;
+use App\Http\Controllers\LoaiChungTuController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -26,6 +27,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('khach-hang', KhachHangController::class)
     ->parameters(['khach-hang' => 'khachHang'])
     ->except('show');
+        Route::middleware('admin')->group(function () {
+        Route::resource('loai-chung-tu', LoaiChungTuController::class)
+            ->parameters(['loai-chung-tu' => 'loaiChungTu'])
+            ->except(['show', 'destroy']);
+    });
 });
 
 require __DIR__.'/auth.php';

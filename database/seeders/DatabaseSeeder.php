@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
                 'dang_hoat_dong' => true,
             ]
         );
+        $this->call(LoaiChungTuSeeder::class);
     }
 }
