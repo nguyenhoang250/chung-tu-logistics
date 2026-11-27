@@ -7,6 +7,7 @@ use App\Models\KhachHang;
 use App\Models\LoHang;
 use App\Models\User;
 use App\Services\LoHangService;
+use App\Models\LoaiChungTu;
 use Inertia\Inertia;
 
 class LoHangController extends Controller
@@ -37,16 +38,23 @@ class LoHangController extends Controller
             ->with('thanh_cong', "Đã tạo lô {$lo->so_ho_so} và sinh checklist.");
     }
 
-    public function show(LoHang $loHang)
+           public function show(LoHang $loHang)
     {
         $loHang->load([
             'khachHang:id,ma_khach_hang,ten',
             'nguoiTao:id,name',
             'nhanVienPhuTrach:id,name',
             'chungTu.loaiChungTu:id,ma,ten',
+            'chungTu.tepHienHanh',
         ]);
+        $loHang->chungTu->loadCount('tepDinhKem');
 
-        return Inertia::render('LoHang/Show', ['loHang' => $loHang]);
+        return Inertia::render('LoHang/Show', [
+            'loHang' => $loHang,
+            'loaiChungTu' => LoaiChungTu::where('dang_su_dung', true)
+                ->orderBy('thu_tu')
+                ->get(['id', 'ma', 'ten']),
+        ]);
     }
 
     public function edit(LoHang $loHang)

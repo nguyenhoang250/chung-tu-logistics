@@ -25,3 +25,16 @@ export function dinhDangNgay(s) {
     const [y, m, d] = s.slice(0, 10).split('-');
     return `${d}/${m}/${y}`;
 }
+export const DUOI_CHO_PHEP = ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx', 'xls', 'xlsx'];
+export const TOI_DA_MB = 10;
+
+export function dinhDangDungLuong(byte) {
+    if (byte < 1024 * 1024) return `${Math.max(1, Math.round(byte / 1024))} KB`;
+    return `${(byte / 1024 / 1024).toFixed(1)} MB`;
+}
+export const TRANG_THAI_BAN_GOC = {
+    khong_co: 'Không có bản gốc',
+    chua_gui: 'Chưa gửi',
+    da_gui: 'Đã gửi',
+    khach_da_nhan: 'Khách đã nhận',
+};

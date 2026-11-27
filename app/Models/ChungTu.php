@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Enums\TrangThaiBanGoc;
 use App\Enums\TrangThaiChungTu;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -46,5 +46,14 @@ class ChungTu extends Model
     public function nguoiTao(): BelongsTo
     {
         return $this->belongsTo(User::class, 'nguoi_tao_id');
+    }
+        public function tepDinhKem(): HasMany
+    {
+        return $this->hasMany(TepDinhKem::class, 'chung_tu_id')->orderByDesc('phien_ban');
+    }
+
+    public function tepHienHanh(): HasMany
+    {
+        return $this->tepDinhKem()->where('la_ban_hien_hanh', true);
     }
 }

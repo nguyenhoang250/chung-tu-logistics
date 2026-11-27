@@ -1,3 +1,7 @@
+import BanGoc from '@/Components/BanGoc';
+import HanhDongChungTu from '@/Components/HanhDongChungTu';
+import OTaiFile from '@/Components/OTaiFile';
+import ThemChungTu from '@/Components/ThemChungTu';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {
     LOAI_LO,
@@ -17,7 +21,7 @@ function Dong({ nhan, giaTri }) {
     );
 }
 
-export default function Show({ auth, loHang: l }) {
+export default function Show({ auth, loHang: l, loaiChungTu = [] }) {
     const thanhCong = usePage().props.flash?.thanh_cong;
     const tt = TRANG_THAI_LO[l.trang_thai];
 
@@ -96,34 +100,66 @@ export default function Show({ auth, loHang: l }) {
                         <div className="h-full bg-green-500" style={{ width: `${phanTram}%` }} />
                     </div>
 
-                    <table className="min-w-full divide-y divide-gray-200 text-sm">
-                        <thead className="text-left text-gray-600">
-                            <tr>
-                                <th className="py-2 pr-4">Mã</th>
-                                <th className="py-2 pr-4">Loại chứng từ</th>
-                                <th className="py-2 pr-4">Bắt buộc</th>
-                                <th className="py-2 pr-4">Số chứng từ</th>
-                                <th className="py-2 pr-4">Trạng thái</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-100">
-                            {l.chung_tu.map((c) => {
-                                const t = TRANG_THAI_CHUNG_TU[c.trang_thai];
-                                return (
-                                    <tr key={c.id}>
-                                        <td className="py-2 pr-4 font-mono text-xs text-gray-500">{c.loai_chung_tu?.ma}</td>
-                                        <td className="py-2 pr-4">{c.loai_chung_tu?.ten}</td>
-                                        <td className="py-2 pr-4">{c.bat_buoc ? 'Có' : ''}</td>
-                                        <td className="py-2 pr-4">{c.so_chung_tu}</td>
-                                        <td className="py-2 pr-4">
-                                            <span className={`rounded px-2 py-0.5 text-xs ${t?.mau}`}>{t?.nhan}</span>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                    <p className="mt-3 text-xs text-gray-400">Tải file vào từng dòng sẽ làm ở Mốc 3.</p>
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200 text-sm">
+                            <thead className="text-left text-gray-600">
+                                <tr>
+                                    <th className="py-2 pr-4">Mã</th>
+                                    <th className="py-2 pr-4">Loại chứng từ</th>
+                                    <th className="py-2 pr-4">Bắt buộc</th>
+                                    <th className="py-2 pr-4">Số chứng từ</th>
+                                    <th className="py-2 pr-4">Trạng thái</th>
+                                    <th className="py-2 pr-4">Tệp</th>
+                                    <th className="py-2 pr-4">Bản gốc</th>
+                                    <th className="py-2 pr-4">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-100">
+                                {l.chung_tu.map((c) => {
+                                    const t = TRANG_THAI_CHUNG_TU[c.trang_thai];
+                                    const kad = c.trang_thai === 'khong_ap_dung';
+                                    return (
+                                        <tr key={c.id} className={kad ? 'bg-gray-50 text-gray-400' : ''}>
+                                            <td className="py-2 pr-4 font-mono text-xs text-gray-500">
+                                                {c.loai_chung_tu?.ma}
+                                            </td>
+                                            <td className="py-2 pr-4">
+                                                {c.loai_chung_tu?.ten}
+                                                {c.ghi_chu && (
+                                                    <div className="text-xs italic text-gray-500">{c.ghi_chu}</div>
+                                                )}
+                                            </td>
+                                            <td className="py-2 pr-4">{c.bat_buoc ? 'Có' : ''}</td>
+                                            <td className="py-2 pr-4">{c.so_chung_tu}</td>
+                                            <td className="py-2 pr-4">
+                                                <span className={`rounded px-2 py-0.5 text-xs ${t?.mau}`}>
+                                                    {t?.nhan ?? c.trang_thai}
+                                                </span>
+                                                {kad && c.ly_do_khong_ap_dung && (
+                                                    <div className="mt-1 text-xs text-gray-500">
+                                                        Lý do: {c.ly_do_khong_ap_dung}
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td className="py-2 pr-4">
+                                                <OTaiFile chungTu={c} khoa={!!l.khoa_luc} />
+                                            </td>
+                                            <td className="py-2 pr-4">
+                                                <BanGoc chungTu={c} khoa={!!l.khoa_luc} />
+                                            </td>
+                                            <td className="py-2 pr-4">
+                                                <HanhDongChungTu chungTu={c} khoa={!!l.khoa_luc} />
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p className="mt-3 text-xs text-gray-400">
+                        Tải file mới vào cùng một dòng sẽ tạo phiên bản mới, bản cũ vẫn được giữ.
+                    </p>
+                    {!l.khoa_luc && <ThemChungTu loHangId={l.id} loai={loaiChungTu} />}
                 </div>
             </div>
         </AuthenticatedLayout>
