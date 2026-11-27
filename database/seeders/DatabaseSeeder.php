@@ -30,5 +30,6 @@ class DatabaseSeeder extends Seeder
             ]
         );
         $this->call(LoaiChungTuSeeder::class);
+        $this->call(MauChecklistSeeder::class);
     }
 }

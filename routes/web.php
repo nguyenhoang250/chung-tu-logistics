@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\LoaiChungTuController;
+use App\Http\Controllers\MauChecklistController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -31,6 +32,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('loai-chung-tu', LoaiChungTuController::class)
             ->parameters(['loai-chung-tu' => 'loaiChungTu'])
             ->except(['show', 'destroy']);
+            Route::resource('mau-checklist', MauChecklistController::class)
+    ->parameters(['mau-checklist' => 'mauChecklist'])
+    ->except(['show', 'destroy']);
     });
 });
 

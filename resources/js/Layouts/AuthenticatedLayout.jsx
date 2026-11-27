@@ -46,6 +46,14 @@ export default function AuthenticatedLayout({ header, children }) {
             Loại chứng từ
         </NavLink>
     )}
+    {user.role === 'admin' && (
+    <NavLink
+        href={route('mau-checklist.index')}
+        active={route().current('mau-checklist.*')}
+    >
+        Mẫu checklist
+    </NavLink>
+)}
 </div>
                         </div>
 
