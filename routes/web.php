@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\LoaiChungTuController;
 use App\Http\Controllers\MauChecklistController;
+use App\Http\Controllers\LoHangController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -36,6 +37,8 @@ Route::middleware('auth')->group(function () {
     ->parameters(['mau-checklist' => 'mauChecklist'])
     ->except(['show', 'destroy']);
     });
+    Route::resource('lo-hang', LoHangController::class)
+    ->parameters(['lo-hang' => 'loHang']);
 });
 
 require __DIR__.'/auth.php';

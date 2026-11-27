@@ -37,6 +37,12 @@ export default function AuthenticatedLayout({ header, children }) {
     >
         Khách hàng
     </NavLink>
+    <NavLink
+    href={route('lo-hang.index')}
+    active={route().current('lo-hang.*')}
+>
+    Lô hàng
+</NavLink>
 
     {user.role === 'admin' && (
         <NavLink
